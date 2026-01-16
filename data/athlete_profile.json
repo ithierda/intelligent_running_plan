@@ -1,0 +1,30 @@
+{
+  "first_name": "Ithier",
+  "last_name": "d'Aramon",
+  "birth_date": "2004-11-10",
+  "gender": "Homme",
+  "weight_kg": 70.0,
+  "height_cm": 183,
+  "max_heart_rate": 202,
+  "resting_heart_rate": 45,
+  "vma_kmh": 17.0,
+  "threshold_pace_min_per_km": null,
+  "training_level": "Avancé",
+  "running_experience_years": 3,
+  "preferred_training_times": [
+    "Après-midi (15h-18h)",
+    "Soir (19h-22h)"
+  ],
+  "preferred_terrain": "Route",
+  "injury_history": [],
+  "current_injuries": [],
+  "main_goal": "Semi-marathon en moins de 1h30",
+  "secondary_goals": [
+    "10km en moins de 40min"
+  ],
+  "garmin_email": null,
+  "garmin_connected": false,
+  "google_calendar_connected": false,
+  "created_at": "2025-11-19",
+  "updated_at": "2025-11-19"
+}
