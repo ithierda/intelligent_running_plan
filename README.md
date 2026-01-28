@@ -100,33 +100,7 @@ venv\Scripts\activate  # Windows
 pip install -r requirements.txt
 ```
 
-### 2. Configuration des Variables d'Environnement
-
-**IMPORTANT** : Ne commitez JAMAIS vos vraies credentials !
-
-```bash
-cp .env.example .env
-```
-
-Éditez le fichier `.env` avec vos vraies valeurs :
-
-```bash
-# Garmin Connect
-GARMIN_EMAIL=votre_email@example.com
-GARMIN_PASSWORD=votre_mot_de_passe
-
-# Google Calendar
-GOOGLE_SERVICE_ACCOUNT_FILE=service_account.json
-GOOGLE_CALENDAR_ID=votre_email@gmail.com
-
-# Mistral AI
-MISTRAL_API_KEY=votre_clé_api
-
-# OpenWeatherMap (optionnel)
-OPENWEATHER_API_KEY=votre_clé_météo
-```
-
-### 3. Configuration Google Calendar
+### 2. Configuration Google Calendar
 
 1. Aller sur [Google Cloud Console](https://console.cloud.google.com/)
 2. Créer un nouveau projet
@@ -138,7 +112,7 @@ OPENWEATHER_API_KEY=votre_clé_météo
 5. Renommer le fichier en `service_account.json` et le placer dans le dossier `Project/`
 6. **Important** : Partager votre Google Calendar avec l'email du service account (avec droits "Modifier les événements")
 
-### 4. Configuration Mistral AI
+### 3. Configuration Mistral AI
 
 1. Créer un compte sur [Mistral AI](https://console.mistral.ai/)
 2. Générer une clé API
@@ -183,23 +157,6 @@ streamlit run ui/Home.py
 3. **Page Today** : Chaque jour, voir la recommandation adaptée
 4. **Page Dashboard** : Suivre votre progression
 
----
-
-## 🔒 Sécurité
-
-### Fichiers à NE JAMAIS committer :
-- ✅ `.env` (contient vos credentials)
-- ✅ `service_account.json` (credentials Google)
-- ✅ `activities_full.csv` (données personnelles)
-- ✅ `data/user_data/` (profils utilisateurs)
-- ✅ Fichiers `.fit` (activités Garmin)
-
-Le fichier `.gitignore` est configuré pour ignorer ces fichiers automatiquement.
-
-### Partager le projet :
-- ✅ Commitez uniquement le code source
-- ✅ Incluez `.env.example` (template sans vraies valeurs)
-- ✅ Documentez les étapes de configuration dans le README
 
 ---
 
@@ -324,85 +281,5 @@ events = service.events().list(
 ).execute()
 ```
 
----
-
-## 🧪 Tests
-
-```bash
-# Lancer les tests
-pytest
-
-# Avec couverture
-pytest --cov=models --cov=core --cov=services
-
-# Test d'un module spécifique
-pytest tests/test_session_adapter.py -v
-```
-
----
-
-## 📝 Exemple de code
-
-### Générer un plan
-
-```python
-from datetime import date, timedelta
-from core.plan_generator import generate_semi_145_plan
-
-# Générer plan pour course dans 12 semaines
-race_date = date.today() + timedelta(weeks=12)
-plan = generate_semi_145_plan(
-    athlete_id="athlete_001",
-    start_date=date.today(),
-    race_date=race_date,
-    sessions_per_week=4,
-    preferred_days=[2, 4, 6, 7]  # Mar, Jeu, Sam, Dim
-)
-
-print(f"Plan généré : {plan.name}")
-print(f"Durée : {plan.duration_weeks} semaines")
-print(f"Total séances : {sum(len(w.sessions) for w in plan.weeks)}")
-```
-
-### Adapter une séance
-
-```python
-from core.session_adapter import SessionAdapter, quick_adapt
-from models import DailyMetrics, SleepData
-
-# Créer métriques du jour
-metrics = DailyMetrics(
-    date=date.today(),
-    sleep=SleepData(
-        date=date.today(),
-        total_sleep_hours=6.5,
-        sleep_quality=SleepQuality.FAIR,
-        sleep_score=70
-    )
-)
-metrics.calculate_recovery_score()
-
-# Adapter la séance
-adapter = SessionAdapter()
-session = plan.get_next_session()
-recommendation = adapter.adapt_session(session, metrics)
-
-print(f"Action : {recommendation.action.value}")
-print(f"Raison : {recommendation.reason}")
-```
-
-
-### Roadmap
-
-- [ ] Interface Streamlit complète (4 pages)
-- [ ] Service Garmin opérationnel
-- [ ] Tests unitaires complets
-- [ ] Intégration Apple Health
-- [ ] Météo API
-- [ ] Machine Learning (prédiction performances)
-- [ ] Export PDF du plan
-- [ ] Application mobile (Flutter/React Native)
-
----
 
 *Bon entraînement ! 🏃‍♂️💨*
